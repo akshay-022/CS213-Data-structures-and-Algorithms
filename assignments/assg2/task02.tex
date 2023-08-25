@@ -1,0 +1,348 @@
+
+
+%% Please comment the next four lines, otherwise the compilation will not go through.
+
+% Minor
+% Name:  Akshay Iyer
+% Roll No. 190070006
+% I pledge on my honor that I have not given or received any unauthorized assistance on this assignment or any previous task.
+
+\documentclass[a4paper,10pt]{article}
+\setlength{\oddsidemargin}{0.25 in}
+\setlength{\evensidemargin}{0.25 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6 in}
+\setlength{\textheight}{9 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+\usepackage[linewidth=1pt, framemethod=tikz]{mdframed}
+\usepackage{lipsum}
+\usepackage[many]{tcolorbox}
+\usepackage{amsmath,amsfonts,caption}
+\usepackage[document]{ragged2e}
+\usepackage{mathtools}
+\usepackage[ruled, vlined]{algorithm2e}
+\usepackage{amssymb,multirow,array,tikz}
+\usepackage{epsfig,amsthm}
+\usepackage{commath}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{sectsty}
+% \usepackage[noend]{algpseudocode}
+% \usepackage{algorithm}
+
+\definecolor{light-gray}{gray}{0.95}
+\surroundwithmdframed[
+    hidealllines=true,
+    backgroundcolor=light-gray,
+    innerleftmargin=15pt
+]{lstlisting}
+
+\newcommand{\task}[2]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 5.72 in { {\bf CS213: Data Structures and Algorithms
+		\hfill Deadline: #2} }
+       \vspace{4mm}
+       \hbox to 5.72 in { {\Large \hfill  \textbf{#1}  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.72 in { {\it Instructor: Prof. Sharat Chandran} }
+      \vspace{2mm}}
+   }
+   \end{center}
+}
+\newenvironment{answer}[1][height fill] {
+    \begin{tcolorbox}[#1]
+}
+{
+    \end{tcolorbox}
+}
+
+\sectionfont{\fontsize{12}{15}\selectfont}
+
+\begin{document}
+\task{Task \#2}{12:00 PM, Feb-09 2021}
+
+
+Minor\\
+Name:  Akshay Iyer\\
+Roll No: 190070006\\
+I pledge on my honor that I have not given or received any unauthorized assistance on this assignment or any previous task.
+
+
+\section{Composite Recurrence}
+
+Consider two functions f(int n), g(int n) defined as:
+\begin{lstlisting}[language=Python]
+
+def f(int n):
+    if n == 1:
+        return 1
+    return f(n-1) + g(n-1)
+    
+def g(int n):
+    if n == 1:
+        return 1
+    if (n%2 == 0):
+        return g(n/2)
+    return g((n+1)/2)
+\end{lstlisting}
+What is the big-Oh complexity of $f(n)$?
+%% ===============================================================================
+%% Your answer ===================================================================
+%% ===============================================================================
+\begin{answer}
+    
+    Let $G(n)$ be the time taken by function g and $T(n)$ be the time taken by the function f to run-
+    
+\begin{align*}
+        T(n) &= T(n-1)+ G(n-1)\\
+        G(n) &= G(\frac{n}{2})+1\\
+        \mbox{Thus by plug and chug method,}\\
+        G(n) &= (....((((G(1) + 1)+1)+1)+1).....)\\
+        \mbox{(log(n) times 1 is added)}\\
+        G(n) &= O(log(n))\\
+        \therefore T(n) &= T(n-1)+ O(log(n))\\
+        \mbox{Thus by plug and chug method,}\\
+        T(n) &= (....((((T(1) + log(2))+log(3))+log(4))....)+log(n-1))\\
+        \mbox{(Which is equal to O(log(n-1)!)}\\
+        \therefore T(n) &= O(nlog(n))\\
+    \end{align*}
+    
+ 
+
+\end{answer}
+
+
+
+
+\section{More Recurrence}
+Let
+$$T(n) = T(\frac{n}{4}) + T(\frac{n}{2}) + 1$$
+Take the base case as $T(1) = 1$ and you can assume n to be an even power of 2 so that the inputs to $T$ are always integers.\\
+Find $T(n)$ in terms of $\Omega$  notation.
+
+%% ===============================================================================
+%% Your answer ===================================================================
+%% ===============================================================================
+\begin{answer}
+     
+    \begin{align*}
+        T(n) &= T(\frac{n}{2})+ T(\frac{n}{4})+1\\
+        T(n) &= 2T(\frac{n}{4})+ T(\frac{n}{8})+2\\
+        T(n) &= 2T(\frac{n}{16})+ 3T(\frac{n}{8})+4\\
+        T(n) &= 5T(\frac{n}{16})+ 3T(\frac{n}{32})+7\\
+        T(n) &= 5T(\frac{n}{64})+ 8T(\frac{n}{32})+12\\
+        T(n) &= 13T(\frac{n}{64})+ 8T(\frac{n}{128})+20\\
+     \end{align*}
+     
+   
+          Thus we see a fibonnaci like sequence, when we expand the higher term in the sum each time(as we are adding the coefficients of the 2 terms in every step to get the new coefficient of the terms in the next step) \\
+          \vspace{\baselineskip}
+        Let the nth fibonacci number be F(n)-\\\\
+        $T(n) &= F(log(n))T(1)+F(log(n)+1)T(2)+F(log(n)+2)-1$\\
+        \vspace{\baselineskip}
+        Assuming T(1)=T(2)=1(We know that T(2) has to be greater than T(1) due to the recurrence relation assuming n=2. thus even by assuming T(2)=1, I am getting a lower bound) \\(We have to make an assumption for T(2) as nothing is given in the question),\\
+        We get-\\
+        $T(n) &= F(log(n))+F(log(n)+1)+F(log(n)+2)-1$\\
+        $T(n) &= 2F(log(n)+2)-1$\\
+        
+        ${\displaystyle F_{n}={\cfrac {1}{\sqrt {5}}}\left({\cfrac {1+{\sqrt {5}}}{2}}\right)^{n}-{\cfrac {1}{\sqrt {5}}}\left({\cfrac {1-{\sqrt {5}}}{2}}\right)^{n}.}$
+        
+        Hence, $T(n)= \theta(\left({\cfrac {1+{\sqrt {5}}}{2}}\right)^{log(n)+2}-\left({\cfrac {{\sqrt {5}}-1}{2}}\right)^{log(n)+2})$\\
+        (As log(n) is always even as given in the question)\\
+        Thus,
+        $T(n)= \Omega(\left({\cfrac {1+{\sqrt {5}}}{2}}\right)^{log(n)}-\left({\cfrac {{\sqrt {5}}-1}{2}}\right)^{log(n)})$\\(As dividing the whole $\theta$ quantity by $((1+\sqrt{5})/2)^2$  is greater than the RHS quantity above. Thus the RHS quantity gives us a lower bound).
+        
+        
+        
+\end{answer}
+
+
+
+\section{Transformed Recurrences}
+Let 
+$$T(n) = 2T(\sqrt{n}) + c$$
+and the base case:
+$$T(2) = T(1) = 1$$
+Give a bound on $T(n)$ in terms of $\Theta$ notation. Prove how you obtained the bound.
+
+For simplicity you may consider $n$ to be of a form that ensures only integers are found when you unroll the recursion (that is the inputs to $T$ are always integers).
+
+%% ===============================================================================
+%% Your answer ===================================================================
+%% ===============================================================================
+\begin{answer}
+    Here we use the induction method by guessing a function that satisfies the above equation. This is as it is fairly obvious it will be of a log n form.
+    We see that here $T(n)$ is of the same form as $2T(\sqrt{n})$. Thus it has a form very similar to log n. 
+    Also, if we assume a constant also added to it, we see that- \\
+    constant= 2*constant + c. Thus our constant is -c.\\
+    Thus let us assume that-
+    \begin{align*}
+        
+         T(n) &= log(n)-c\\\\
+         \mbox{Thus assuming this is true for some k, we see that-}\\\\
+         LHS &= 2(log(\sqrt{k})-c)+c\\\\
+         LHS   &= 2(0.5log(k)-c)+c\\\\
+        LHS &= log(k)-c\\\\
+           LHS  &= RHS
+    \end{align*}
+    c in the question will be such that it satisfies $T(1)$ and $T(2)$. Thus we do not need to check for the initial case as we will need the value of c, which will be taken care of by the question.\\
+    Hence our assumption was correct, and $T(n)$ is of the form $\theta(log n)$
+    
+\end{answer}
+
+
+
+\section{His Master's Voice}
+% Consider the following recurrences:
+% \begin{enumerate}[label=(\roman*)]
+%     \item $T(n) = 4T(\frac{n}{2}) + n^{2}\log^4{n}$
+%     \item $T(n) = T(\frac{n}{2}) + \tanh{n}$
+%     \item $T(n) = T(\frac{n}{2}) + n(2-\cos{n})$
+% \end{enumerate}
+% The base case for each of these is $T(1) = \Theta(1)$
+
+For each of the recurrences below, state whether the master theorem is applicable or not. If yes, state to which of the three cases the recursion belongs to and find the asymptotic bound. If not, state reasons why the theorem is not applicable. In the cases where master theorem is not applicable, can you find the asymptotic bound using other methods? \textit{(this is not necessary but may fetch you bonus marks)}
+
+The base case for each of these recurrences is $T(1) = \Theta(1)$
+
+\begin{enumerate}[label=(\roman*), wide]
+\item $T(n) = 4T(\frac{n}{2}) + n^{2}\log^4{n}$
+%% ===============================================================================
+%% Your answer ===================================================================
+%% ===============================================================================
+\begin{answer}
+    Here a=4, b=2.
+    
+    \begin{align*}
+        
+         F(n) &= n^{2}(log n)^4\\\\
+         n^{\log_{2}4}&=n^2\\\\
+         F(n) \neq \theta(n^2)\\\\
+        \mbox{Also, for all $n>n_0$-}\\
+         \theta(n^{2+\epsilon})>n^{2}(log n)^4 \\\\
+        \mbox{As,}\\
+        There\ exists\ an\ n_o\ such\ that\ n^{\epsilon}>(log n)^k\ for\ all\ n>n_o\ , for\ every\ k\ and\ \epsilon
+    \end{align*}
+    Hence we see that the master theorem is not valid in this case.
+    
+\end{answer}
+
+\item $T(n) = T(\frac{n}{2}) + \tanh{n}$
+%% ===============================================================================
+%% Your answer ===================================================================
+%% ===============================================================================
+\begin{answer}
+    Here a=1, b=2.
+    
+    \begin{align*}
+    
+        
+         F(n) &= {\displaystyle \tanh n={\frac {\sinh n}{\cosh n}}={\frac {e^{n}-e^{-n}}{e^{n}+e^{-n}}}={\frac {e^{2n}-1}{e^{2n}+1}}}\\\\
+         n^{\log_{2}1}&=1\\\\
+         
+        \mbox{Now, for every $\epsilon$, there exists an $n_0$ such that for all $n>n_0$-}\\
+         1-\epsilon<{\frac {e^{2n}-1}{e^{2n}+1}}<1+\epsilon\\\\
+        hence,\\
+        F(n) &= \theta(1)
+         
+    \end{align*}
+    Thus we see that the master theorem is valid in this case, and $T(n) &= \theta(\log_{2}n)$.\\
+    (As limit F(n) as n tends to infinity is 1).
+    
+\end{answer}
+
+\item $T(n) = T(\frac{n}{2}) + n(2-\cos{n})$
+%% ===============================================================================
+%% Your answer ===================================================================
+%% ===============================================================================
+\begin{answer}
+       Here a=1, b=2.
+    
+    \begin{align*}
+    
+        
+         F(n) &= n(2-cos(n))\\\\
+         n^{\log_{2}1}&=1\\\\
+         
+        \mbox{Now, for every n,}\\
+         n \le n(2-cos(n)) \le 3n\\
+         \mbox{(As cos(n) lies between -1 and 1)}\\\\
+         
+        hence,\\
+        F(n) &= \theta(n)\\\\
+        
+        Now,\\
+        (n^{0+\epsilon})<n\ \forall\ \epsilon<1\ and\ n>1 
+         
+    \end{align*}
+    $T(n)= \theta(F(n)) = \theta(n)  $.\\
+    
+    But now, 
+    $a.f(n/b)\nleq cf(n)$, as $1f(n/2)\leq 3n/2$\\
+    We need a cn such that $cn\geq 3n/2$, for some $c<1$, which is not possible, as we got $c\geq 3/2$ as above.
+    
+    Thus the master theorem is not applicable here.
+\end{answer}
+\end{enumerate}
+
+\section{I Hate Loops!!!}
+    \begin{algorithm}[H]
+    \caption{: I Hate Loops!!!}
+        \SetAlgoLined
+        int a = 0;\\
+        \For{i=1; i$\leq$n; i++} {
+            \For{j=i; j$\leq$n; j+=i} {
+                a++;
+            }
+        }
+    \end{algorithm}
+
+    
+Find the asymptotic complexity of the above code in terms of $n$.
+
+%% ===============================================================================
+%% Your answer ===================================================================
+%% ===============================================================================
+\begin{answer}
+    In the first i loop, j goes from 1 to n.\\
+    In every iteration of j, an increment takes place.\\
+    \vspace{\baselineskip}
+    In the second iteration of i, j goes from 2 to n.\\
+    Thus j takes (n-1)/2 values.\\
+    (n-1) increments take place.\\\\
+    \vspace{\baselineskip}
+    Similarly for the third iteration of i,\\
+    (n-2)/3 increments take place.\\\\
+    \vspace{\baselineskip}
+    Thus the total number of increments taking place are-\\ ((1/(n))+(2/(n-1))+(3/(n-2))+.....+n)= Z
+    
+    \begin{align*}
+        
+        Z &=((1/(n)+1/(n-1)+1/(n-2).....)+((1/(n-1))+(1/(n-2))....)+.....+1)\\
+        \vspace{\baselineskip}
+        Z &=H_n + H_{n-1} + .... H_1\\
+        
+        H_n&=O(log(n+1))\\
+        
+        Z &= O(log(n+1))+O(log(n))+......+ O(log(2))
+        &= O(nlog(n))
+        
+    \end{align*}
+    
+    (The $H_n$ above is the nth harmonic sum. \\We got $H_n$ as $O(log(n))$, by integrating (1/n) from 1 to (n+1) (Which gives us log(n+1)-log(1)), as area under the curve which is the integral, is less than the sum of the n rectangles of width 1 which gives us $H_n$)\\
+    Thus the asymptotic complexity of the above code is O(nlog(n)).\\
+\end{answer}
+
+
+\end{document}
+
+
+

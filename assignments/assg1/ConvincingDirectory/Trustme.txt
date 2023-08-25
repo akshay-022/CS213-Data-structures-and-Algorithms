@@ -1,0 +1,15 @@
+
+
+Minor
+Akshay Iyer
+Roll number 190070006
+Hackerrank ID- h190070006
+email ID on hackkerrank- 190070006@iitb.ac.in
+
+I pledge on my honor that I have not given or received any unauthorized assistance on this assignment or any previous task.
+
+I have worked with python quite a lot and hence I decided to use python in most of the challenges.
+I wanted to use c++ in one of the challenges because I also wanted to recall and relearn its syntax as I had forgotten quite abit of it. I plan on using c++ in my later assignments too as I want to get acquainted with it again, like before.
+Plus the pseudo code for quicksort in class was given in c++, hence I used it to solve that question.
+
+I also gave a lot of time to solve this assignment and as you can see from my essay pdf and the comprehensive explanations that I gave there, I learnt a lot of concepts and things which I wouldn't have known unless I implemented all of the programs myself.
